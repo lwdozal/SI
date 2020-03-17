@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+#Laura W. 3/13/2020
+#InsightCrime scraper
+##selenium try-4 new IDE
+import csv
+import pandas as pd
+import selenium
+from selenium import webdriver
+
+MAX_PAGE_NUM = []
+MAX_PAGE_CHAR = 100
+
+with open('SIresults.csv', 'w') as f:
+    f.write("category, date, title \n")
+ 
+#open browser and navigate to webpage
+driver = webdriver.Chrome()
+#driver.get("https://www.insightcrime.org//category/news/")
+
+#trying to append the url with the titles of the article, but can't figure it out
+
+for i in range(i, MAX_PAGE_NUM + 1):
+    page_name = (MAX_PAGE_CHAR - len(str(i))) * "0" + str(i) 
+    url = "https://www.insightcrime.org/news/brief/" + str(i) 
+    driver.get(url)  
+    
+    #now attempt to extract content based on XPath
+    title = driver.find_elements_by_xpath('//h1[@class="entry-title"]')
+    category = driver.find_elements_by_xpath('//li[@class="entry-category"]')
+    author = driver.find_elements_by_xpath('//div[@class="td-post-author-name-con-obv"]')
+    date = driver.find_elements_by_xpath('//span[@class="td-post-date"]')
+    content = driver.find_elements_by_xpath('//div[@class="td-post-content"]')
+    
+ 
+    
+#print out all topics from landing page.
+num_page_items = len(1000)
+with open('SIresults.csv', 'a') as f:
+    for i in range(num_page_items):
+        f.write(title[i].text + "," + date[i].text + "," + author[i].text + "," + category[i].text + "," + content[i] + "\n")
+        
+#for i in range(num_page_items):
+ #   print(title[i].text + ":" + date[i].text + ":" + category[i].text)
+
+#close browser once task is completed
+driver.close()
